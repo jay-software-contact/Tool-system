@@ -20,12 +20,6 @@ const statusConfig: Record<
   completed: { label: "Done", dotColor: "#2196f3", bgAlpha: 0.15 },
 };
 
-// ---- Style Helpers ----
-
-function getTokens(themeTokens: ThemeTokens) {
-  return themeTokens;
-}
-
 // ---- Skeleton Row ----
 
 function SkeletonRow({ tokens }: { tokens: ThemeTokens }) {
