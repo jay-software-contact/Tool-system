@@ -9,3 +9,7 @@ export type { ChipVariant, ChipSize, ChipProps } from "./Chip";
 
 export { Card } from "./Card";
 export type { CardProps } from "./Card";
+
+export { PipelineListView } from "../views/PipelineListView";
+export type { PipelineListViewProps } from "../views/PipelineTypes";
+export type { Pipeline, PipelineStatus, PipelineStep, PipelineTool } from "../views/PipelineTypes";
