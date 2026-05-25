@@ -6,3 +6,6 @@ export type { BreadcrumbItem, BreadcrumbProps } from "./Breadcrumb";
 
 export { Chip } from "./Chip";
 export type { ChipVariant, ChipSize, ChipProps } from "./Chip";
+
+export { Card } from "./Card";
+export type { CardProps } from "./Card";

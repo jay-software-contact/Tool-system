@@ -420,6 +420,114 @@ export function ExtractionView({
         </div>
       </div>
 
+      {/* Prompt input section */}
+      <div
+        style={{
+          padding: "12px 16px",
+          borderBottom: `1px solid ${t.border}`,
+          backgroundColor: t.bg,
+        }}
+      >
+        <label
+          htmlFor="extraction-prompt"
+          style={{
+            display: "block",
+            marginBottom: "6px",
+            fontSize: "0.75rem",
+            fontWeight: 600,
+            fontFamily: "'DM Sans', sans-serif",
+            color: t.textMuted,
+            textTransform: "uppercase",
+            letterSpacing: "0.05em",
+          }}
+        >
+          Project Prompt
+        </label>
+        <textarea
+          id="extraction-prompt"
+          value={prompt}
+          onChange={(e) => onPromptChange?.(e.target.value)}
+          placeholder="Enter your extraction prompt here..."
+          rows={4}
+          style={{
+            width: "100%",
+            minHeight: "80px",
+            padding: "10px 12px",
+            fontSize: "0.875rem",
+            fontFamily: "'DM Sans', sans-serif",
+            color: t.text,
+            backgroundColor: t.bgActive,
+            border: `1px solid ${t.border}`,
+            borderRadius: "6px",
+            resize: "vertical",
+            outline: "none",
+            lineHeight: 1.5,
+            boxSizing: "border-box",
+            transition: "border-color 120ms ease",
+          }}
+          onFocus={(e) => {
+            (e.currentTarget as HTMLTextAreaElement).style.borderColor = t.accent;
+          }}
+          onBlur={(e) => {
+            (e.currentTarget as HTMLTextAreaElement).style.borderColor = t.border;
+          }}
+        />
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            marginTop: "10px",
+          }}
+        >
+          <button
+            onClick={onRun}
+            disabled={runDisabled || loading}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
+              padding: "8px 20px",
+              fontSize: "0.8125rem",
+              fontWeight: 600,
+              fontFamily: "'Space Grotesk', 'DM Sans', sans-serif",
+              color: runDisabled || loading ? t.textDisabled : "#000",
+              backgroundColor: runDisabled || loading ? t.bgActive : t.accent,
+              border: `1px solid ${runDisabled || loading ? t.border : t.accent}`,
+              borderRadius: "6px",
+              cursor: runDisabled || loading ? "not-allowed" : "pointer",
+              transition: "all 120ms ease",
+              letterSpacing: "0.02em",
+            }}
+            onMouseEnter={(e) => {
+              if (!(runDisabled || loading)) {
+                (e.currentTarget as HTMLElement).style.backgroundColor = t.accentHover;
+              }
+            }}
+            onMouseLeave={(e) => {
+              if (!(runDisabled || loading)) {
+                (e.currentTarget as HTMLElement).style.backgroundColor = t.accent;
+              }
+            }}
+          >
+            {loading ? (
+              <>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ animation: "extraction-shimmer 1s linear infinite" }}>
+                  <circle cx="12" cy="12" r="10" />
+                </svg>
+                Running...
+              </>
+            ) : (
+              <>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <polygon points="5 3 19 12 5 21 5 3" />
+                </svg>
+                Run
+              </>
+            )}
+          </button>
+        </div>
+      </div>
+
       {/* Source indicator */}
       {source && !loading && (
         <div
