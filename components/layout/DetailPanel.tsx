@@ -10,15 +10,7 @@ interface Component {
   font: string;
 }
 
-interface TemplateItem {
-  name: string;
-  description?: string;
-  tools?: string[];
-  color?: string;
-  icon?: string;
-}
-
-type DetailItem = Component | TemplateItem | Record<string, any> | null;
+type DetailItem = Component | Record<string, any> | null;
 
 interface DetailPanelProps {
   item: DetailItem;
@@ -71,7 +63,6 @@ export default function DetailPanel({ item, onClose }: DetailPanelProps) {
   }, [handleEscape]);
 
   const isComponent = item && 'colors' in item;
-  const isTemplate = item && 'tools' in item && Array.isArray((item as any).tools);
 
   return (
     <>
@@ -89,9 +80,8 @@ export default function DetailPanel({ item, onClose }: DetailPanelProps) {
           item ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
-        {item && isTemplate && <TemplatePanel item={item as any} onClose={onClose} />}
         {item && isComponent && <ComponentPanel component={item as Component} onClose={onClose} />}
-        {item && !isComponent && !isTemplate && <ToolPanel tool={item as any} onClose={onClose} />}
+        {item && !isComponent && <ToolPanel tool={item as any} onClose={onClose} />}
       </div>
     </>
   );
@@ -296,62 +286,6 @@ function ComponentPanel({ component, onClose }: { component: Component; onClose:
           {component.font}
         </span>
       </div>
-    </div>
-  );
-}
-
-function TemplatePanel({ item, onClose }: { item: TemplateItem; onClose: () => void }) {
-  return (
-    <div className="p-6">
-      {/* Header */}
-      <div className="flex items-start justify-between mb-6">
-        <div className="flex items-center gap-3">
-          <div
-            className="w-10 h-10 rounded-lg flex items-center justify-center"
-            style={{ backgroundColor: (item.color || '#8B5CF6') + '22' }}
-          >
-            <i className={`fas ${item.icon || 'fa-layer-group'}`} style={{ color: item.color || '#8B5CF6' }} />
-          </div>
-          <div>
-            <h2 className="font-display text-lg font-bold text-primary">
-              {item.name}
-            </h2>
-            <span className="text-xs text-secondary">Template</span>
-          </div>
-        </div>
-        <button
-          onClick={onClose}
-          className="text-secondary hover:text-primary transition-colors p-1"
-        >
-          <i className="fas fa-times" />
-        </button>
-      </div>
-
-      {/* Description */}
-      {item.description && (
-        <p className="text-sm text-secondary leading-relaxed mb-6">
-          {item.description}
-        </p>
-      )}
-
-      {/* Tool stack */}
-      {item.tools && item.tools.length > 0 && (
-        <>
-          <h3 className="font-display text-xs font-semibold text-primary uppercase tracking-wider mb-3">
-            Tool Stack
-          </h3>
-          <div className="flex flex-wrap gap-2 mb-6">
-            {item.tools.map((t) => (
-              <span
-                key={t}
-                className="px-2.5 py-1 text-xs rounded bg-accent1/10 text-accent1 border border-accent1/20"
-              >
-                {t}
-              </span>
-            ))}
-          </div>
-        </>
-      )}
     </div>
   );
 }

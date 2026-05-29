@@ -19,12 +19,11 @@ function createClient(): Databases {
 
 const SEARCH_COLLECTIONS: Array<{
   id: string;
-  type: 'tool' | 'component' | 'template' | 'issue';
+  type: 'tool' | 'component' | 'issue';
   fields: string[];
 }> = [
   { id: 'tools',     type: 'tool',      fields: ['name', 'description', 'slug'] },
   { id: 'components',type: 'component', fields: ['name', 'type', 'slug'] },
-  { id: 'templates', type: 'template',  fields: ['name', 'description', 'slug'] },
   { id: 'issues',    type: 'issue',     fields: ['title', 'description', 'slug'] },
 ];
 
@@ -40,7 +39,6 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({
         tools: [],
         components: [],
-        templates: [],
         issues: [],
       });
     }
@@ -51,7 +49,6 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({
         tools: [],
         components: [],
-        templates: [],
         issues: [],
       });
     }
@@ -93,7 +90,6 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({
       tools: results.tools || [],
       components: results.components || [],
-      templates: results.templates || [],
       issues: results.issues || [],
     });
   } catch (err: any) {
@@ -102,7 +98,6 @@ export async function GET(req: NextRequest) {
       {
         tools: [],
         components: [],
-        templates: [],
         issues: [],
       },
       { status: 200 },

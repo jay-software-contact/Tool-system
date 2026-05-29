@@ -9,7 +9,7 @@ interface StatCard {
   accent: string;
 }
 
-const STAT_TEMPLATE: Omit<StatCard, "value">[] = [
+const STAT_CONFIG: Omit<StatCard, "value">[] = [
   {
     icon: "fa-puzzle-piece",
     label: "Tool Profiles",
@@ -21,9 +21,9 @@ const STAT_TEMPLATE: Omit<StatCard, "value">[] = [
     accent: "text-teal-400 border-l-teal-500",
   },
   {
-    icon: "fa-layer-group",
-    label: "Templates",
-    accent: "text-blue-400 border-l-blue-500",
+    icon: "fa-palette",
+    label: "Aesthetics Catalog",
+    accent: "text-pink-400 border-l-pink-500",
   },
   {
     icon: "fa-robot",
@@ -45,7 +45,6 @@ const STAT_TEMPLATE: Omit<StatCard, "value">[] = [
 interface DashboardData {
   tools: number;
   components: number;
-  templates: number;
   status: string;
 }
 
@@ -65,7 +64,7 @@ export default function DashboardView() {
       .catch(() => {});
   }, []);
 
-  const stats: StatCard[] = STAT_TEMPLATE.map((s) => {
+  const stats: StatCard[] = STAT_CONFIG.map((s) => {
     let value = "—";
     if (!data) {
       value = "—";
@@ -73,8 +72,6 @@ export default function DashboardView() {
       value = String(data.tools);
     } else if (s.label === "UI Components") {
       value = String(data.components);
-    } else if (s.label === "Templates") {
-      value = String(data.templates);
     } else if (s.label === "Hermes Status") {
       value = data.status === "online" ? "Online" : "Offline";
     } else if (s.label === "Engine Nodes") {

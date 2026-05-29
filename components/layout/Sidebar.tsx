@@ -6,8 +6,7 @@ import { usePathname } from "next/navigation";
 const NAV_ITEMS = [
   { label: "Dashboard", href: "/dashboard", icon: "fa-chart-pie" },
   { label: "Tools", href: "/tools", icon: "fa-puzzle-piece" },
-  { label: "Components", href: "/components", icon: "fa-shapes" },
-  { label: "Templates", href: "/templates", icon: "fa-layer-group" },
+  { label: "Aesthetics Catalog", href: "/aesthetics", icon: "fa-palette" },
   { label: "Extraction", href: "/extraction", icon: "fa-magnifying-glass-chart" },
   { label: "Architecture", href: "/architecture", icon: "fa-diagram-project" },
   { label: "Settings", href: "/settings", icon: "fa-gear" },

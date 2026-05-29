@@ -13,10 +13,9 @@ export async function GET() {
   try {
     const databases = getDatabases();
 
-    const [toolsRes, componentsRes, templatesRes] = await Promise.allSettled([
+    const [toolsRes, componentsRes] = await Promise.allSettled([
       databases.listDocuments(DATABASE_ID, "tools", []),
       databases.listDocuments(DATABASE_ID, "components", []),
-      databases.listDocuments(DATABASE_ID, "templates", []),
     ]);
 
     const tools =
@@ -25,15 +24,10 @@ export async function GET() {
       componentsRes.status === "fulfilled"
         ? componentsRes.value.total ?? 0
         : 0;
-    const templates =
-      templatesRes.status === "fulfilled"
-        ? templatesRes.value.total ?? 0
-        : 0;
 
     return NextResponse.json({
       tools,
       components,
-      templates,
       status: "online",
     });
   } catch (err) {
