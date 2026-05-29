@@ -34,7 +34,6 @@ export async function GET(
     if (err?.code === 404) {
       return NextResponse.json({ error: 'Component not found' }, { status: 404 });
     }
-    console.error('[api/components/[id]] GET error:', err);
     return NextResponse.json(
       { error: err?.message || 'Failed to fetch component' },
       { status: 500 }
@@ -101,7 +100,6 @@ export async function PUT(
     if (err?.code === 404) {
       return NextResponse.json({ error: 'Component not found' }, { status: 404 });
     }
-    console.error('[api/components/[id]] PUT error:', err);
     return NextResponse.json(
       { error: err?.message || 'Failed to update component' },
       { status: 500 }
@@ -123,7 +121,6 @@ export async function DELETE(
     if (err?.code === 404) {
       return NextResponse.json({ error: 'Component not found' }, { status: 404 });
     }
-    console.error('[api/components/[id]] DELETE error:', err);
     return NextResponse.json(
       { error: err?.message || 'Failed to delete component' },
       { status: 500 }

@@ -31,7 +31,6 @@ export async function GET(
     if (err?.code === 404) {
       return NextResponse.json({ error: 'Tool not found' }, { status: 404 });
     }
-    console.error('[api/tools/[id]] GET error:', err);
     return NextResponse.json(
       { error: err?.message || 'Failed to fetch tool' },
       { status: 500 }
@@ -89,7 +88,6 @@ export async function PUT(
     if (err?.code === 404) {
       return NextResponse.json({ error: 'Tool not found' }, { status: 404 });
     }
-    console.error('[api/tools/[id]] PUT error:', err);
     return NextResponse.json(
       { error: err?.message || 'Failed to update tool' },
       { status: 500 }
@@ -111,7 +109,6 @@ export async function DELETE(
     if (err?.code === 404) {
       return NextResponse.json({ error: 'Tool not found' }, { status: 404 });
     }
-    console.error('[api/tools/[id]] DELETE error:', err);
     return NextResponse.json(
       { error: err?.message || 'Failed to delete tool' },
       { status: 500 }

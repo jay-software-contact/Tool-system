@@ -45,7 +45,6 @@ export async function GET(req: NextRequest) {
 
     // If Appwrite credentials are missing, return empty results (graceful degradation)
     if (!process.env.APPWRITE_ENDPOINT || !process.env.APPWRITE_PROJECT_ID) {
-      console.warn('[search] Appwrite credentials not configured — returning empty results');
       return NextResponse.json({
         tools: [],
         components: [],
@@ -81,7 +80,6 @@ export async function GET(req: NextRequest) {
             description: doc.description || undefined,
           }));
         } catch (err) {
-          console.warn(`[search] collection "${id}" query failed:`, err);
           results[id] = [];
         }
       }),
@@ -93,7 +91,6 @@ export async function GET(req: NextRequest) {
       issues: results.issues || [],
     });
   } catch (err: any) {
-    console.error('[search] unexpected error:', err);
     return NextResponse.json(
       {
         tools: [],

@@ -36,7 +36,6 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ id: doc.$id, ...doc }, { status: 201 });
   } catch (err: any) {
-    console.error('[api/tools] POST error:', err);
     return NextResponse.json(
       { error: err?.message || 'Failed to create tool' },
       { status: 500 }
@@ -80,7 +79,6 @@ export async function GET(req: NextRequest) {
       total: result.total,
     });
   } catch (err: any) {
-    console.error('[api/tools] GET error:', err);
     return NextResponse.json(
       { error: err?.message || 'Failed to list tools' },
       { status: 500 }

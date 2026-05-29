@@ -54,7 +54,6 @@ export async function POST(req: NextRequest) {
       { status: 201 }
     );
   } catch (err: any) {
-    console.error('[api/components] POST error:', err);
     return NextResponse.json(
       { error: err?.message || 'Failed to create component' },
       { status: 500 }
@@ -105,7 +104,6 @@ export async function GET(req: NextRequest) {
       total: result.total,
     });
   } catch (err: any) {
-    console.error('[api/components] GET error:', err);
     return NextResponse.json(
       { error: err?.message || 'Failed to list components' },
       { status: 500 }
