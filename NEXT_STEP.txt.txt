@@ -1,0 +1,28 @@
+## Current State (2026-06-23)
+
+### Completed This Session
+- Theme system created: `themes/tokens.ts` + `components/ui/ThemeContext.tsx`
+- ToolEngine built: `lib/engine.ts` (extraction, classification, adaptation pathways)
+- Appwrite service layer: `lib/appwrite.ts` (client, types, query helpers, permissions)
+- Layout component: `components/layout/ViewShell.tsx`
+- PipelineListView: `components/views/PipelineListView.tsx`
+- App pages: Home (`app/page.tsx`), Tools (`app/tools/page.tsx`), Pipelines (`app/pipelines/page.tsx`)
+- API route: `app/api/submit-tool/route.ts` (POST/GET)
+- Root layout with ThemeProvider
+- README.md created
+- NEXT_STEP.txt updated
+
+### Still Pending
+- Phase 4: Wire up real Appwrite data (run setup_appwrite.py, seed tools)
+- Phase 5: Pipeline editor (visual node-based builder)
+- Phase 6: Rating system UI
+- Phase 7: Aesthetic taxonomy browser
+- Phase 8: Adaptation pathway visualization
+- Phase 9: Tool extraction API integration (connect ToolEngine to Appwrite)
+- Phase 10: User templates & favorites
+
+### Next Immediate Step
+1. Run `python setup_appwrite.py` to create the database
+2. Create seed script for sample tools data
+3. Test the tools page with real data
+4. Add navigation between pages (breadcrumb/navbar component)
