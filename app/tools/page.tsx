@@ -6,6 +6,12 @@ import { ViewShell } from "../../components/layout/ViewShell";
 import { fetchTools, isUsingAppwrite } from "../../lib/data";
 import type { Tool } from "../../lib/appwrite";
 
+// Helper to ensure string for display
+function str(val: unknown): string {
+  if (val == null) return "—";
+  return String(val);
+}
+
 export default function ToolsPage() {
   const { tokens } = useTheme();
   const [tools, setTools] = useState<Tool[]>([]);
@@ -28,11 +34,13 @@ export default function ToolsPage() {
     loadTools();
   }, []);
 
-  const filteredTools = tools.filter((t) =>
-    !filterText || t.name.toLowerCase().includes(filterText.toLowerCase()) ||
-    t.domain.toLowerCase().includes(filterText.toLowerCase()) ||
-    (t.tags || []).some(tag => tag.toLowerCase().includes(filterText.toLowerCase()))
-  );
+  const filteredTools = tools.filter((t) => {
+    if (!filterText) return true;
+    const flt = filterText.toLowerCase();
+    return t.name.toLowerCase().includes(flt) ||
+    (t.description || "").toLowerCase().includes(flt) ||
+    (t.aestheticCategory || "").toLowerCase().includes(flt);
+  });
 
   return (
     <ViewShell>
@@ -196,7 +204,7 @@ function ToolCard({ tool, tokens }: { tool: Tool; tokens: ReturnType<typeof useT
                 color: tool.status === "active" ? "#22c55e" : "#9ca3af",
               }}
             >
-              {tool.status}
+              {str(tool.status)}
             </span>
           )}
         </div>

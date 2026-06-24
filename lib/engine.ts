@@ -181,7 +181,7 @@ export class ToolEngine {
       function: tool.description || tool.name,
       type: this.classifyType(tool),
       domain: tool.domain,
-      subcategory: tool.subcategory || undefined,
+      subcategory: (tool.subcategory as string) || undefined,
       aesthetic: this.extractAesthetic(tool),
       structure: this.extractStructure(tool),
       behavior: this.extractBehavior(tool),
@@ -209,7 +209,7 @@ export class ToolEngine {
   computeClusters(): ProximityCluster[] {
     const groups: Record<string, ExtractedComponent[]> = {};
 
-    for (const comp of this.components.values()) {
+    for (const comp of Array.from(this.components.values())) {
       const key = `${comp.domain}::${comp.type}`;
       if (!groups[key]) groups[key] = [];
       groups[key].push(comp);
@@ -433,7 +433,7 @@ export class ToolEngine {
   private extractPatterns(): Array<{ name: string; description: string; componentCount: number }> {
     const patterns: Record<string, { count: number; domains: Set<string> }> = {};
 
-    for (const comp of this.components.values()) {
+    for (const comp of Array.from(this.components.values())) {
       const key = `${comp.structure.pattern}`;
       if (!patterns[key]) patterns[key] = { count: 0, domains: new Set() };
       patterns[key].count++;

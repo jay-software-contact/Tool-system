@@ -1,11 +1,8 @@
+"use client";
+
 import React from "react";
 import { ThemeProvider } from "../components/ui/ThemeContext";
 import { ViewShell } from "../components/layout/ViewShell";
-
-export const metadata = {
-  title: "the-System",
-  description: "Tool management platform with aesthetic taxonomy",
-};
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (

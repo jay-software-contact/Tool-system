@@ -2,7 +2,16 @@
  * Appwrite Client & Service Layer (SDK 19.x compatible)
  * 
  * Uses the new Databases API (replaced TablesDB in SDK 18+).
- * API: createDocument, listDocuments, etc.
+ * API: createDocument, listDocument, etc.
+ * 
+ * Component fields match Appwrite schema:
+ *   - name: string
+ *   - description: string
+ *   - aestheticCategory: string (one of 7 presets)
+ *   - type: JSON string in Appwrite, parsed to object by API
+ *   - createdAt: number (Unix timestamp)
+ *   - updatedAt: number (Unix timestamp)
+ *   - designTokens: { borderRadius?, padding?, gap?, blur?, border?, focusRing? }
  */
 
 import { Client, Databases, Storage, Functions, ID, Query, Permission, Role } from "appwrite";
@@ -18,7 +27,6 @@ const databaseId = "core_db";
 
 const client = new Client();
 client.setEndpoint(endpoint).setProject(projectId);
-// SDK 19.x uses setKey on the client
 if (apiKey) {
   (client as any).setKey(apiKey);
 }
@@ -43,28 +51,39 @@ export const Tables = {
   RATING_SCHEMAS: "rating_schemas",
 } as const;
 
-export const BUCKETS = {
-  TOOL_ICONS: "tool_icons",
-  COMPONENT_PREVIEWS: "component_previews",
-  TEMPLATE_PREVIEWS: "template_previews",
-} as const;
+// ---- Design Tokens Type ----
 
-// ---- Type Definitions ----
+export interface DesignTokens {
+  borderRadius?: string;
+  padding?: string;
+  gap?: string;
+  blur?: string;
+  border?: string;
+  focusRing?: string;
+  backgroundColor?: string;
+  color?: string;
+  fontSize?: string;
+  fontFamily?: string;
+  boxShadow?: string;
+  gradient?: string;
+  [key: string]: string | undefined;
+}
+
+// ---- Tool Component (matches Appwrite schema) ----
 
 export interface Tool {
   $id: string;
   name: string;
-  slug: string;
-  domain: string;
-  category: string;
+  description: string;
+  aestheticCategory: string;
+  type: string;
+  createdAt: number;
+  updatedAt?: number;
+  designTokens?: DesignTokens;
+  status?: string;
+  domain?: string;
+  category?: string;
   subcategory?: string;
-  description?: string;
-  iconUrl?: string;
-  docsUrl?: string;
-  repoUrl?: string;
-  version?: string;
-  license?: string;
-  status: string;
   tags?: string[];
   proximityCluster?: string;
   proximityNeighbors?: string[];
@@ -72,16 +91,17 @@ export interface Tool {
   aestheticTags?: string[];
   componentIds?: string[];
   ratingSchema?: string;
-  ratings?: string;
   differentiation?: string;
   bestCases?: string[];
   worstCases?: string[];
   integrationIds?: string[];
   issueIds?: string[];
+  repoUrl?: string;
+  docsUrl?: string;
   createdBy?: string;
-  createdAt: number;
-  updatedAt?: number;
 }
+
+// ---- Pipeline ----
 
 export type PipelineStatus = "draft" | "active" | "paused" | "error" | "completed";
 
@@ -108,6 +128,8 @@ export interface PipelineDomain {
   tags?: string[];
 }
 
+// ---- Aesthetic Taxonomy ----
+
 export interface AestheticTaxonomy {
   $id: string;
   name: string;
@@ -131,15 +153,19 @@ export interface AestheticTaxonomy {
   created_at?: number;
 }
 
+// ---- Activity Log ----
+
 export interface ActivityLog {
   $id: string;
   userId?: string;
   action: string;
   entityType: string;
   entityId: string;
-  diff?: string;
+  diff?: string; // JSON string
   timestamp: number;
 }
+
+
 
 // ---- Query Helpers ----
 
@@ -174,6 +200,35 @@ export const Permissions = {
     Permission.delete(Role.user(userId)),
   ],
 };
+
+// ---- Helper: Parse Appwrite component with JSON type field ----
+
+export function parseToolFromAppwrite(doc: Record<string, unknown>): Tool {
+  return {
+    $id: doc.$id as string,
+    name: (doc.name as string) || "—",
+    description: (doc.description as string) || "—",
+    aestheticCategory: (doc.aestheticCategory as string) || (doc.aesthetic_category as string) || "—",
+    type: (doc.type as string) || "{}",
+    createdAt: (doc.createdAt as number) || (doc.created_at as number) || 0,
+    updatedAt: (doc.updatedAt as number) || (doc.updated_at as number),
+    designTokens: parseDesignTokens(doc.designTokens || doc.design_tokens),
+    status: doc.status as string | undefined,
+  };
+}
+
+export function parseDesignTokens(value: unknown): DesignTokens {
+  if (!value) return {};
+  if (typeof value === "object") return value as DesignTokens;
+  if (typeof value === "string") {
+    try {
+      return JSON.parse(value) as DesignTokens;
+    } catch {
+      return {};
+    }
+  }
+  return {};
+}
 
 // ---- Re-exports ----
 
