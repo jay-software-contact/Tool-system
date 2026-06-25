@@ -1,33 +1,28 @@
 ## Current State (2026-06-24)
 
 ### COMPLETE
-- Theme system: tokens.ts + ThemeContext.tsx (7 presets)
-- Tool Engine: lib/engine.ts (extraction, classification, adaptation)
-- Appwrite types: lib/appwrite.ts (per user spec: name, description, aestheticCategory, type JSON string, createdAt, updatedAt, designTokens)
-- Data layer: lib/data.ts (mock ↔ Appwrite switching)
-- UI Components: Input, ViewShell, Navbar, Breadcrumb, AdaptationPathwayCard
-- Views: PipelineListView, ExtractionView
-- Pages: Home, Catalog, Batch, Tools, Pipelines, Taxonomy
-- API Routes: /api/extract, /api/components, /api/submit-tool
-- Batch processor: lib/batch/processor.ts
-- Seed data: seed_data.py (12 tools matching Appwrite schema)
-- BUILD: All TypeScript errors resolved, 12 static pages generated
-- GITHUB: Pushed to jay-software-contact/Tool-system master
+- Build: passes cleanly with 12 static pages (no .env.local needed)
+- GitHub: up to date at jay-software-contact/Tool-system master
+- Appwrite types: updated per spec (name, description, aestheticCategory, type JSON string, createdAt, updatedAt, designTokens)
+- Seed data: 12 tools with proper JSON strings for type and designTokens
+- All TypeScript errors resolved
+- Mock data layer: app works without Appwrite
 
-### Vercel
-- User connected the GitHub repo in Vercel dashboard
-- Push triggered deployment
-- Previous 404 was from old project
+### Blocked (user action required)
+1. Vercel: old project still serving 404 on sub-routes. Delete + recreate from dashboard
+2. Appwrite API key: .env.local was deleted. Need to recreate with valid key for live data
+3. Batch extraction: needs Hermes endpoint running + valid API key
 
-### Still Pending
-1. Verify Vercel deployment succeeds (check dashboard)
-2. Set env vars in Vercel: NEXT_PUBLIC_USE_APPWRITE=false (or true when ready)
-3. Run batch extraction: python3.13 run_batch.py (needs Hermes endpoint)
-4. Retry failed extractions: npx ts-node retry_agent.ts batch1_results.json
+### How to get unstuck (priority order)
+1. Vercel dashboard → Delete old "the-system" project → Re-import GitHub repo
+2. Recreate .env.local with Appwrite credentials (Project ID: 6a13543d0006a286284f, Endpoint: https://nyc.cloud.appwrite.io/v1)
+3. Run: python3.13 seed_data.py (to re-seed if needed)
+4. Run: python3.13 run_batch.py (to start extraction)
 
-### Appwrite Config (for Vercel env vars when ready)
-- Project ID: 6a13543d0006a286284f
-- Endpoint: https://nyc.cloud.appwrite.io/v1
-- DB: core_db
-- SDK: node-appwrite (CJS)
-- SERVER_KEY needed for DB mgmt
+### Key files
+- lib/appwrite.ts: All types + parseToolFromAppwrite() helper
+- lib/data.ts: Mock data + Appwrite switching
+- seed_data.py: 12 tools matching Appwrite schema
+- run_batch.py: Batch processing (100 websites/batch from D:\projects\Websitestools list.txt)
+- retry_agent.ts: Failure diagnosis + retry queue
+- app/catalog/page.tsx: Visual aesthetic organization with detail panel

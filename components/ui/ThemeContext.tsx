@@ -24,9 +24,55 @@ export interface ThemeTokens {
     md?: string;
     lg?: string;
     xl?: string;
+    base?: string;
+    input?: string;
     full?: string;
   };
-  spacing?: string | Record<string, string>;
+  shadows?: {
+    sm?: string;
+    md?: string;
+    lg?: string;
+    xl?: string;
+    input?: string;
+    inputFocus?: string;
+    focus?: string;
+    inset?: string;
+    accent?: string;
+    none?: string;
+  };
+  spacing?: Record<string, string | number>;
+  colors?: {
+    surface?: string;
+    surfaceDisabled?: string;
+    surfaceMuted?: string;
+    surfaceInput?: string;
+    surfaceHover?: string;
+    surfaceActive?: string;
+    textPrimary?: string;
+    textSecondary?: string;
+    textMuted?: string;
+    textDisabled?: string;
+    textPlaceholder?: string;
+    label?: string;
+    error?: string;
+    border?: string;
+    borderDefault?: string;
+    borderDisabled?: string;
+    borderMuted?: string;
+    borderFocus?: string;
+    primary?: string;
+    accent?: string;
+    disabled?: string;
+    [key: string]: string | undefined;
+  };
+  typography?: {
+    fontFamily?: string;
+    fontSizes?: Record<string, string>;
+    sizes?: Record<string, string>;
+    lineHeight?: string;
+    letterSpacing?: Record<string, string>;
+    fonts?: Record<string, string>;
+  };
   components?: {
     nav?: { height?: string; paddingX?: string };
     input?: { paddingX?: string; paddingY?: string; fontSize?: string; borderWidth?: string };

@@ -21,7 +21,7 @@ import React, {
   type InputHTMLAttributes,
   type ReactNode,
 } from 'react';
-import { useTheme } from '../../../contexts/ThemeContext';
+import { useTheme } from './ThemeContext';
 
 // ---------------------------------------------------------------------------
 // Types
@@ -127,20 +127,20 @@ const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputProps>(
     const sizeScale: Record<string, { height: number; fontSize: number; paddingH: number; iconSize: number }> = {
       sm: {
         height: 32,
-        fontSize: t.typography?.sizes?.xs ?? 12,
-        paddingH: t.spacing?.sm ?? 8,
+        fontSize: Number(t.typography?.sizes?.xs ?? 12),
+        paddingH: Number(t.spacing?.sm ?? 8),
         iconSize: 14,
       },
       md: {
         height: 40,
-        fontSize: t.typography?.sizes?.sm ?? 14,
-        paddingH: t.spacing?.md ?? 12,
+        fontSize: Number(t.typography?.sizes?.sm ?? 14),
+        paddingH: Number(t.spacing?.md ?? 12),
         iconSize: 16,
       },
       lg: {
         height: 48,
-        fontSize: t.typography?.sizes?.base ?? 16,
-        paddingH: t.spacing?.lg ?? 16,
+        fontSize: Number(t.typography?.sizes?.base ?? 16),
+        paddingH: Number(t.spacing?.lg ?? 16),
         iconSize: 18,
       },
     };
