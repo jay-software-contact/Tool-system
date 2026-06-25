@@ -17,8 +17,6 @@
 import type { Tool, PipelineDomain, AestheticTaxonomy, ActivityLog, DesignTokens } from "./appwrite";
 import { databases, DB_ID, Tables, Queries, parseDesignTokens } from "./appwrite";
 
-// ---- Configuration ----
-
 // Default to mock data since Appwrite SDK types need migration for v19
 // Set NEXT_PUBLIC_USE_APPWRITE=true once types are updated
 const USE_APPWRITE = process.env.NEXT_PUBLIC_USE_APPWRITE === "true";
