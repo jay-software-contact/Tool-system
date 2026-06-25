@@ -1,28 +1,33 @@
-## Current State (2026-06-23)
+## Current State (2026-06-24)
 
-### Completed This Session
-- Theme system created: `themes/tokens.ts` + `components/ui/ThemeContext.tsx`
-- ToolEngine built: `lib/engine.ts` (extraction, classification, adaptation pathways)
-- Appwrite service layer: `lib/appwrite.ts` (client, types, query helpers, permissions)
-- Layout component: `components/layout/ViewShell.tsx`
-- PipelineListView: `components/views/PipelineListView.tsx`
-- App pages: Home (`app/page.tsx`), Tools (`app/tools/page.tsx`), Pipelines (`app/pipelines/page.tsx`)
-- API route: `app/api/submit-tool/route.ts` (POST/GET)
-- Root layout with ThemeProvider
-- README.md created
-- NEXT_STEP.txt updated
+### COMPLETE
+- Theme system: tokens.ts + ThemeContext.tsx (7 presets)
+- Tool Engine: lib/engine.ts (extraction, classification, adaptation)
+- Appwrite types: lib/appwrite.ts (per user spec: name, description, aestheticCategory, type JSON string, createdAt, updatedAt, designTokens)
+- Data layer: lib/data.ts (mock ↔ Appwrite switching)
+- UI Components: Input, ViewShell, Navbar, Breadcrumb, AdaptationPathwayCard
+- Views: PipelineListView, ExtractionView
+- Pages: Home, Catalog, Batch, Tools, Pipelines, Taxonomy
+- API Routes: /api/extract, /api/components, /api/submit-tool
+- Batch processor: lib/batch/processor.ts
+- Seed data: seed_data.py (12 tools matching Appwrite schema)
+- BUILD: All TypeScript errors resolved, 12 static pages generated
+- GITHUB: Pushed to jay-software-contact/Tool-system master
+
+### Vercel
+- User connected the GitHub repo in Vercel dashboard
+- Push triggered deployment
+- Previous 404 was from old project
 
 ### Still Pending
-- Phase 4: Wire up real Appwrite data (run setup_appwrite.py, seed tools)
-- Phase 5: Pipeline editor (visual node-based builder)
-- Phase 6: Rating system UI
-- Phase 7: Aesthetic taxonomy browser
-- Phase 8: Adaptation pathway visualization
-- Phase 9: Tool extraction API integration (connect ToolEngine to Appwrite)
-- Phase 10: User templates & favorites
+1. Verify Vercel deployment succeeds (check dashboard)
+2. Set env vars in Vercel: NEXT_PUBLIC_USE_APPWRITE=false (or true when ready)
+3. Run batch extraction: python3.13 run_batch.py (needs Hermes endpoint)
+4. Retry failed extractions: npx ts-node retry_agent.ts batch1_results.json
 
-### Next Immediate Step
-1. Run `python setup_appwrite.py` to create the database
-2. Create seed script for sample tools data
-3. Test the tools page with real data
-4. Add navigation between pages (breadcrumb/navbar component)
+### Appwrite Config (for Vercel env vars when ready)
+- Project ID: 6a13543d0006a286284f
+- Endpoint: https://nyc.cloud.appwrite.io/v1
+- DB: core_db
+- SDK: node-appwrite (CJS)
+- SERVER_KEY needed for DB mgmt
